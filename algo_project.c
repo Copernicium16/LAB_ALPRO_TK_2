@@ -11,6 +11,7 @@ Group-4:
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct {
     char kode[10];
@@ -32,6 +33,7 @@ History histories[100];
 int totalBook = 0;
 int totalHistory = 0;
 
+//read file databuku.txt
 void loadBook() {
     FILE *fp = fopen("databuku.txt", "r");
 
@@ -57,23 +59,47 @@ void generateBookCode(char code[]) {
 
 // Function untuk menambahkan data buku baru
 void inputBook() {
-    generateBookCode(books[totalBook].kode);
+    int validation_harga;
 
     printf("\nInput Data Buku\n");
 
+    //Kode buku
+    generateBookCode(books[totalBook].kode);
     printf("Kode Buku : %s\n", books[totalBook].kode);
 
-    printf("Nama Buku : ");
-    scanf(" %[^\n]", books[totalBook].nama);
+    //Nama buku
+    do {
+        printf("Nama Buku : ");
+        scanf(" %[^\n]", books[totalBook].nama);
+        if (strlen(books[totalBook].nama) == 0) {
+            printf("Nama buku tidak boleh kosong!\n");
+        }
+    } while (strlen(books[totalBook].nama) == 0);
 
-    printf("Jenis Buku : ");
-    scanf(" %[^\n]", books[totalBook].jenis);
+    //Jenis buku
+    do {
+        printf("Jenis Buku : ");
+        scanf(" %[^\n]", books[totalBook].jenis);
+        if (strlen(books[totalBook].jenis) == 0) {
+            printf("Jenis buku tidak boleh kosong!\n");
+        }
+    } while (strlen(books[totalBook].nama) == 0);
 
-    printf("Harga Buku : ");
-    scanf("%lf", &books[totalBook].harga);
+    //Harga buku
+    do {
+        printf("Harga Buku : ");
+        validation_harga = scanf("%lf", &books[totalBook].harga);
+        while (getchar() != '\n');
+        if (validation_harga != 1) {
+            printf("Harga harus angka!\n");
+        }
+        else if (books[totalBook].harga <= 0) {
+            printf("Harga harus lebih dari 0!\n");
+            validation_harga = 0;
+        }
+    } while (validation_harga != 1);
 
     totalBook++;
-
     printf("\nData buku berhasil ditambahkan!\n");
 }
 
