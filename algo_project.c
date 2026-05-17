@@ -137,10 +137,88 @@ void viewBook() {
     }
 }
 
+//Function untuk menghapus seluruh data history transaksi
 void deleteHistory() {
+    if (totalHistory == 0) {
+        printf("\nTidak ada data transaksi!\n");
+        return;
+    }
+
+    int index;
+    int validation;
+
+    printf("\nList History Transaksi\n");
+
+    for(int i = 0; i < totalHistory; i++) {
+        printf("%d. %s | Jumlah: %d | Total: %.2lf\n",
+            i + 1,
+            histories[i].kodeBuku,
+            histories[i].jumlahTerjual,
+            histories[i].totalHarga);
+    }
+
+    do {
+        printf("\nPilih index yang ingin dihapus [1-%d]: ", totalHistory);
+        validation = scanf("%d", &index);
+        while (getchar() != '\n');
+        if (validation != 1) {
+            printf("Input harus angka!\n");
+            while (getchar() != '\n');
+            index = 0;
+        } else if (index < 1 || index > totalHistory) {
+            printf("Index tidak valid!\n");
+        }
+    } while (index < 1 || index > totalHistory);
+
+    //geser data history setelah index yang dihapus
+    for (int i = index - 1; i < totalHistory - 1; i++) {
+        histories[i] = histories[i + 1];
+    }
+    totalHistory--;
+    printf("\nData Successfully Deleted!\n");
 }
 
+//Function untuk menghapus seluruh data buku
 void deleteBook() {
+    if (totalBook == 0) {
+        printf("\nTidak ada data buku!\n");
+        return;
+    }
+    
+    int index;
+    int validation;
+
+    printf("\nList Data Buku\n");
+
+    for(int i = 0; i < totalBook; i++) {
+        printf("%d. %s | %s | %s | %.2lf\n",
+            i + 1,
+            books[i].kode,
+            books[i].nama,
+            books[i].jenis,
+            books[i].harga);
+    }
+
+    do {
+        printf("\nPilih index yang ingin dihapus [1-%d]: ", totalBook);
+        validation = scanf("%d", &index);
+        while (getchar() != '\n');
+        if (validation != 1) {
+            printf("Input harus angka!\n");
+            while (getchar() != '\n');
+            index = 0;
+        } else if (index < 1 || index > totalBook) {
+            printf("Index tidak valid!\n");
+        }
+    } while (index < 1 || index > totalBook);
+
+    //geser data buku setelah index yang dihapus
+    for (int i = index - 1; i < totalBook - 1; i++) {
+        books[i] = books[i + 1];
+    }
+    totalBook--;
+    printf("\nData Successfully Deleted!\n");
+
 }
 
 void saveBookAndHistory() {
