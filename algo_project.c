@@ -104,6 +104,19 @@ void inputBook() {
 }
 
 void viewHistory() {
+    if (totalBook == 0) {
+        printf("\nTidak ada data buku!\n");
+        return;
+    }
+
+    for (int i = 0; i < totalBook; i++) {
+        printf("%d. %s | %s | %s | %.2lf\n",
+            i + 1,
+            books[i].kode,
+            books[i].nama,
+            books[i].jenis,
+            books[i].harga);
+    }
 }
 
 // Function untuk menampilkan seluruh data buku
@@ -212,6 +225,50 @@ void saveBookAndHistory() {
 }
 
 void inputTransaction() {
+    FILE *fpBook = fopen("databuku.txt", "w");
+
+    if (fpBook == NULL)
+    {
+        printf("[Error] Gagal membuka databuku.txt!\n");
+    }
+    else
+    {
+        for (int i = 0; i < totalBook; i++)
+        {
+            fprintf(fpBook, "%s|%s|%s|%.2lf\n",
+                    books[i].kode,
+                    books[i].nama,
+                    books[i].jenis,
+                    books[i].harga);
+        }
+        fclose(fpBook);
+        printf("[Sukses] Data buku berhasil tersimpan.\n");
+    }
+
+    FILE *fpHistory = fopen("datahistoris.txt", "w");
+
+    if (fpHistory == NULL)
+    {
+        printf("[Error] Gagal membuka datatransaksi.txt!\n");
+    }
+    else
+    {
+        for (int i = 0; i < totalHistory; i++)
+        {
+            fprintf(fpHistory, "%s|%d|%.2lf\n",
+                    histories[i].kodeBuku,
+                    histories[i].jumlahTerjual,
+                    histories[i].totalHarga);
+        }
+        fclose(fpHistory);
+        printf("[Sukses] Data transaksi berhasil tersimpan.\n");
+    }
+
+    if (fpBook == NULL || fpHistory == NULL)
+    {
+        printf("\nTekan ENTER untuk melanjutkan proses keluar sistem tanpa menyimpan data yang gagal...");
+        getchar();
+    }
 }
 
 int main(void)
